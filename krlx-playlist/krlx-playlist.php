@@ -59,6 +59,8 @@ class KRLX_Playlist_Widget extends WP_Widget {
 				echo '<li><strong>'.$song["song_name"].'</strong><br>'.$song["song_artist"].'</li>';
 			}
 			
+			mysqli_close($songLogDB);
+			
 			echo '</ul>';
 		*/
 		
