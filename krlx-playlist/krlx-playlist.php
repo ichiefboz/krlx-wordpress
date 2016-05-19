@@ -43,7 +43,25 @@ class KRLX_Playlist_Widget extends WP_Widget {
 		if (!empty( $instance['title'])) {
 			echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
 		}
-		echo __('Hello, World!', 'krlx_playlist');
+		
+		$songCount = intval((!empty($instance["song_count"])) ? $instance["song_count"] : 5);
+		
+		// Uncomment the following area and replace the constants with
+		// the actual database details to connect it to the song logger.
+		
+		/*
+			echo '<ul>';
+			
+			$songLogDB = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+			$songQuery = "SELECT * FROM `Song` ORDER BY `date_time` DESC LIMIT ".$songCount;
+			$songResults = mysqli_query($songLogDB, $songQuery);
+			while($song = mysqli_fetch_array($songResults)) {
+				echo '<li><strong>'.$song["song_name"].'</strong><br>'.$song["song_artist"].'</li>';
+			}
+			
+			echo '</ul>';
+		*/
+		
 		echo $args['after_widget'];
 	}
 	
