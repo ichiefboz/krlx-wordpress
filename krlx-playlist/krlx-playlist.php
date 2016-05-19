@@ -13,7 +13,8 @@ if (!defined('ABSPATH')) die('-1');
 
 add_action('widgets_init', function() {
 	register_widget( 'KRLX_Playlist_Widget' );
-});	
+});
+
 /**
  * Adds KRLX_Playlist_Widget widget.
  */
@@ -56,14 +57,23 @@ class KRLX_Playlist_Widget extends WP_Widget {
 	public function form($instance) {
 		if (isset($instance['title'])) {
 			$title = $instance['title'];
-		}
-		else {
+		} else {
 			$title = __('Playlist', 'krlx_playlist');
+		}
+		
+		if (isset($instance['song_count'])) {
+			$songCount = $instance['song_count'];
+		} else {
+			$songCount = __(5, 'krlx_playlist');
 		}
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('song_count'); ?>"><?php _e('Song Count:'); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id('song_count'); ?>" name="<?php echo $this->get_field_name('song_count'); ?>" type="number" min="1" max="100" value="<?php echo esc_attr( $songCount ); ?>">
 		</p>
 		<?php 
 	}
@@ -80,6 +90,8 @@ class KRLX_Playlist_Widget extends WP_Widget {
 	public function update($new_instance, $old_instance) {
 		$instance = array();
 		$instance['title'] = (!empty($new_instance['title'])) ? strip_tags($new_instance['title']) : '';
+		$instance['song_count'] = (!empty($new_instance['song_count']) and ($new_instance['song_count'] >= 1) and ($new_instance['song_count'] <= 100)) ? intval($new_instance['song_count']) : 5;
+		
 		return $instance;
 	}
 } // class KRLX_Playlist_Widget
